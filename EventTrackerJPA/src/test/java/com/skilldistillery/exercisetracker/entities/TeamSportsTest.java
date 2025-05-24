@@ -1,7 +1,6 @@
 package com.skilldistillery.exercisetracker.entities;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -13,11 +12,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-class ExerciseTest {
-	
+class TeamSportsTest {
 	private static EntityManagerFactory emf; 
 	private static EntityManager em;
-	private Exercise exercise;
+	private TeamSports teamSports;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -32,28 +30,25 @@ class ExerciseTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		
+		teamSports = em.find(TeamSports.class, 1);
 	}
 	
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		exercise = null;
+		teamSports = null;
 	}
 
 	@Test
 	void test() {
-		exercise = em.find(Exercise.class, 1);
-		assertEquals("Weightlifting", exercise.getName());
+		
+		assertEquals("Basketball", teamSports.getName());
 	}
 	
 	@Test
-	void test_Exercise_TeamSports_OTO_mapping() {
-		exercise = em.find(Exercise.class, 6);
-
-		assertEquals("Basketball", exercise.getTeamSports().getName());
-		assertNotNull(exercise.getTeamSports());
+	void test_TeamSports_Exercise_OTO_mapping() {
+		assertNotNull(teamSports.getExercise());
 	}
 
 }
