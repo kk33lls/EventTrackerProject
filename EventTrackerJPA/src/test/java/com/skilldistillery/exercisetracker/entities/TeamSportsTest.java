@@ -47,7 +47,7 @@ class TeamSportsTest {
 	}
 	
 	@Test
-	void test_TeamSports_Exercise_OTO_mapping() {
+	void test_TeamSports_Exercise_MTO_mapping() {
 		assertNotNull(teamSports.getExercise());
 	}
 

@@ -1,5 +1,6 @@
 package com.skilldistillery.exercisetracker.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -7,30 +8,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Exercise {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String name;
-	
+
 	private Double duration;
-	
+
 	@Column(name = "average_heart_rate")
 	private Integer averageHeartRate;
-	
-	@Column(name="calories_burned")
+
+	@Column(name = "calories_burned")
 	private Integer caloriesBurned;
-	
-	@OneToOne
-	@JoinColumn(name="team_sports_id")
-	private TeamSports teamSports;
-	
+
+	@OneToMany(mappedBy = "exercise")
+	private List<TeamSports> teamSports;
+
 
 	public Exercise() {
 		super();
@@ -76,11 +75,12 @@ public class Exercise {
 		this.caloriesBurned = caloriesBurned;
 	}
 
-	public TeamSports getTeamSports() {
+
+	public List<TeamSports> getTeamSports() {
 		return teamSports;
 	}
 
-	public void setTeamSports(TeamSports teamSports) {
+	public void setTeamSports(List<TeamSports> teamSports) {
 		this.teamSports = teamSports;
 	}
 
@@ -106,5 +106,5 @@ public class Exercise {
 		return "Exercise [id=" + id + ", name=" + name + ", duration=" + duration + ", averageHeartRate="
 				+ averageHeartRate + ", caloriesBurned=" + caloriesBurned + ", teamSports=" + teamSports + "]";
 	}
-	
+
 }

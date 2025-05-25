@@ -2,6 +2,7 @@ package com.skilldistillery.exercisetracker.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -32,9 +33,7 @@ class ExerciseTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		
 	}
-	
 
 	@AfterEach
 	void tearDown() throws Exception {
@@ -49,11 +48,10 @@ class ExerciseTest {
 	}
 	
 	@Test
-	void test_Exercise_TeamSports_OTO_mapping() {
+	void test_Exercise_TeamSports_OTM_mapping() {
 		exercise = em.find(Exercise.class, 6);
-
-		assertEquals("Basketball", exercise.getTeamSports().getName());
 		assertNotNull(exercise.getTeamSports());
+		assertTrue(exercise.getTeamSports().size() > 0);
 	}
 
 }
