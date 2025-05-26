@@ -1,6 +1,7 @@
 package com.skilldistillery.exercisetracker.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,27 @@ public class TeamSportsServiceImpl implements TeamSportsService{
 		return tr.saveAndFlush(newSport);
 		}
 		return null;
+	}
+
+	@Override
+	public boolean delete(int teamSportId) {
+		Optional<TeamSports> sportId = tr.findById(teamSportId);
+		if(sportId.isPresent()) {
+			tr.deleteById(teamSportId);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public TeamSports update(int teamsSportId, TeamSports updatedTeamSport) {
+		TeamSports managedTeamSport = tr.findById(teamsSportId).orElse(null);
+		
+		if(managedTeamSport != null) {
+			managedTeamSport.setName(updatedTeamSport.getName());
+			tr.saveAndFlush(managedTeamSport);
+		}
+		return managedTeamSport;
 	}
 
 }

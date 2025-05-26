@@ -3,6 +3,8 @@ package com.skilldistillery.exercisetracker.entities;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ public class Exercise {
 	@Column(name = "calories_burned")
 	private Integer caloriesBurned;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "exercise")
 	private List<TeamSports> teamSports;
 

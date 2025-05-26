@@ -9,4 +9,6 @@ public interface TeamSportsService {
 	TeamSports findById(int id);
 	List<TeamSports> showAll();
 	TeamSports create(TeamSports newSport);
+	boolean delete(int teamSportId);
+	TeamSports update(int teamsSportId, TeamSports updatedTeamSport);
 }
