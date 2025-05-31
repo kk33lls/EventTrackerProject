@@ -12,37 +12,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skilldistillery.exercisetracker.entities.Exercise;
-import com.skilldistillery.exercisetracker.services.ExerciseService;
+import com.skilldistillery.exercisetracker.entities.ExerciseType;
+import com.skilldistillery.exercisetracker.services.ExerciseTypeService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("api")
-public class ExerciseController {
+public class ExerciseTypeController {
 
 	@Autowired
-	private ExerciseService es;
+	private ExerciseTypeService ets;
 
-	@GetMapping("exercises/{exerciseId}")
-	public Exercise findById(@PathVariable("exerciseId") int exerciseId, HttpServletResponse res) {
-		Exercise exercise = es.findById(exerciseId);
+	@GetMapping("exerciseTypes/{exerciseId}")
+	public ExerciseType findById(@PathVariable("exerciseId") int exerciseId, HttpServletResponse res) {
+		ExerciseType exercise = ets.findById(exerciseId);
 		if (exercise == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
 		return exercise;
 	}
-	@GetMapping("exercises")
-	public List<Exercise> showAll(HttpServletResponse res) {
-		return es.showAll();
+	@GetMapping("exerciseTypes")
+	public List<ExerciseType> showAll(HttpServletResponse res) {
+		return ets.showAll();
 	}
 
-	@PostMapping("exercises")
-	public Exercise create(@RequestBody Exercise newExercise, HttpServletResponse res, HttpServletRequest req) {
-		Exercise exercise;
+	@PostMapping("exerciseTypes")
+	public ExerciseType create(@RequestBody ExerciseType newExercise, HttpServletResponse res, HttpServletRequest req) {
+		ExerciseType exercise;
 		try {
-		exercise = es.create(newExercise);
+		exercise = ets.create(newExercise);
 		if(exercise == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}else {
@@ -57,11 +57,11 @@ public class ExerciseController {
 		return exercise;
 	}
 	
-	@DeleteMapping("exercises/{exerciseId}")
+	@DeleteMapping("exerciseTypes/{exerciseId}")
 	public void deleteCommentFromPost(@PathVariable("exerciseId") int exerciseId,
 			HttpServletResponse res, HttpServletRequest req) {
 		try {
-			if (es.delete(exerciseId)) {
+			if (ets.delete(exerciseId)) {
 				res.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			} else {
 				res.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -72,11 +72,11 @@ public class ExerciseController {
 		}
 	}
 	
-	@PutMapping("exercises/{exerciseId}")
-	public Exercise update(@PathVariable("exerciseId") int exerciseId, @RequestBody Exercise updatedExercise,
+	@PutMapping("exerciseTypes/{exerciseId}")
+	public ExerciseType update(@PathVariable("exerciseId") int exerciseId, @RequestBody ExerciseType updatedExercise,
 		HttpServletResponse res) {
 		try {
-			updatedExercise = es.update(exerciseId, updatedExercise);
+			updatedExercise = ets.update(exerciseId, updatedExercise);
 			if (updatedExercise == null) {
 				res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			}

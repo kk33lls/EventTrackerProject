@@ -2,6 +2,7 @@ package com.skilldistillery.exercisetracker.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -13,11 +14,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-class ExerciseTest {
+class ExerciseTypeTest {
+
 	
 	private static EntityManagerFactory emf; 
 	private static EntityManager em;
-	private Exercise exercise;
+	private ExerciseType exerciseType;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -32,23 +34,24 @@ class ExerciseTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		exercise = em.find(Exercise.class, 1);
+		exerciseType = em.find(ExerciseType.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		exercise = null;
+		exerciseType = null;
 	}
 
 	@Test
 	void test() {
-		assertEquals(.75, exercise.getDuration());
+		assertEquals("Weightlifting", exerciseType.getName());
 	}
 	
 	@Test
-	void test_Exercise_ExerciseType_MTO_mapping() {
-		assertNotNull(exercise.getExerciseType());
+	void test_ExerciseType_Exercise_OTM_mapping() {
+		assertNotNull(exerciseType.getExercises());
+		assertTrue(exerciseType.getExercises().size() > 0);
 	}
 
 }

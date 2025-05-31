@@ -1,16 +1,18 @@
 package com.skilldistillery.exercisetracker.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Exercise {
@@ -19,8 +21,9 @@ public class Exercise {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String name;
-
+	private String notes;
+	
+	@Column(name = "duration_in_hours")
 	private Double duration;
 
 	@Column(name = "average_heart_rate")
@@ -28,10 +31,13 @@ public class Exercise {
 
 	@Column(name = "calories_burned")
 	private Integer caloriesBurned;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "exercise")
-	private List<TeamSports> teamSports;
+	
+	@Column(name="exercise_date")
+	private LocalDateTime exerciseDate;
+	
+	@ManyToOne
+    @JoinColumn(name = "exercise_type_id")
+    private ExerciseType exerciseType;
 
 
 	public Exercise() {
@@ -44,14 +50,6 @@ public class Exercise {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Double getDuration() {
@@ -78,13 +76,28 @@ public class Exercise {
 		this.caloriesBurned = caloriesBurned;
 	}
 
-
-	public List<TeamSports> getTeamSports() {
-		return teamSports;
+	public String getNotes() {
+		return notes;
 	}
 
-	public void setTeamSports(List<TeamSports> teamSports) {
-		this.teamSports = teamSports;
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public LocalDateTime getExerciseDate() {
+		return exerciseDate;
+	}
+
+	public void setExerciseDate(LocalDateTime exerciseDate) {
+		this.exerciseDate = exerciseDate;
+	}
+
+	public ExerciseType getExerciseType() {
+		return exerciseType;
+	}
+
+	public void setExerciseType(ExerciseType exerciseType) {
+		this.exerciseType = exerciseType;
 	}
 
 	@Override
@@ -106,8 +119,9 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", name=" + name + ", duration=" + duration + ", averageHeartRate="
-				+ averageHeartRate + ", caloriesBurned=" + caloriesBurned + ", teamSports=" + teamSports + "]";
+		return "Exercise [id=" + id + ", notes=" + notes + ", duration=" + duration + ", averageHeartRate="
+				+ averageHeartRate + ", caloriesBurned=" + caloriesBurned + ", exerciseDate=" + exerciseDate
+				+ ", exerciseType=" + exerciseType + "]";
 	}
 
 }

@@ -28,10 +28,11 @@ public class ExerciseServiceImpl implements ExerciseService {
 	@Override
 	public Exercise create(Exercise newExercise) {
 		if (newExercise != null) {
-			newExercise.setName(newExercise.getName());
+			newExercise.setNotes(newExercise.getNotes());
 			newExercise.setAverageHeartRate(newExercise.getAverageHeartRate());
 			newExercise.setCaloriesBurned(newExercise.getCaloriesBurned());
 			newExercise.setDuration(newExercise.getDuration());
+			newExercise.setExerciseDate(newExercise.getExerciseDate());
 			return er.saveAndFlush(newExercise);
 		}
 		return null;
@@ -52,10 +53,11 @@ public class ExerciseServiceImpl implements ExerciseService {
 		Exercise managedExercise = er.findById(id).orElse(null);
 		
 		if(managedExercise != null) {
-			managedExercise.setName(updatedExercise.getName());
+			managedExercise.setNotes(updatedExercise.getNotes());
 			managedExercise.setAverageHeartRate(updatedExercise.getAverageHeartRate());
 			managedExercise.setCaloriesBurned(updatedExercise.getCaloriesBurned());
 			managedExercise.setDuration(updatedExercise.getDuration());
+			managedExercise.setExerciseDate(updatedExercise.getExerciseDate());
 			er.saveAndFlush(managedExercise);
 		}
 	

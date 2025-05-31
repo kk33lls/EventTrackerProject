@@ -16,34 +16,38 @@ CREATE SCHEMA IF NOT EXISTS `exercisedb` DEFAULT CHARACTER SET utf8 ;
 USE `exercisedb` ;
 
 -- -----------------------------------------------------
+-- Table `exercise_type`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `exercise_type` ;
+
+CREATE TABLE IF NOT EXISTS `exercise_type` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(2000) NOT NULL,
+  `description` TEXT NULL,
+  `image_url` VARCHAR(2000) NULL,
+  `team_sport` TINYINT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `exercise`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `exercise` ;
 
 CREATE TABLE IF NOT EXISTS `exercise` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(2000) NOT NULL,
-  `duration` DOUBLE NULL,
+  `notes` TEXT NULL,
+  `duration_in_hours` DOUBLE NULL,
   `average_heart_rate` INT NULL,
   `calories_burned` INT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `team_sports`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `team_sports` ;
-
-CREATE TABLE IF NOT EXISTS `team_sports` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(2000) NULL,
-  `exercise_id` INT NULL,
+  `exercise_date` DATETIME NULL,
+  `exercise_type_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_team_sports_exercise_idx` (`exercise_id` ASC) VISIBLE,
-  CONSTRAINT `fk_team_sports_exercise`
-    FOREIGN KEY (`exercise_id`)
-    REFERENCES `exercise` (`id`)
+  INDEX `fk_exercise_exercise_type1_idx` (`exercise_type_id` ASC) VISIBLE,
+  CONSTRAINT `fk_exercise_exercise_type1`
+    FOREIGN KEY (`exercise_type_id`)
+    REFERENCES `exercise_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -60,32 +64,35 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `exercise`
+-- Data for table `exercise_type`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `exercisedb`;
-INSERT INTO `exercise` (`id`, `name`, `duration`, `average_heart_rate`, `calories_burned`) VALUES (1, 'Weightlifting', NULL, NULL, NULL);
-INSERT INTO `exercise` (`id`, `name`, `duration`, `average_heart_rate`, `calories_burned`) VALUES (2, 'Pilates', NULL, NULL, NULL);
-INSERT INTO `exercise` (`id`, `name`, `duration`, `average_heart_rate`, `calories_burned`) VALUES (3, 'Yoga', NULL, NULL, NULL);
-INSERT INTO `exercise` (`id`, `name`, `duration`, `average_heart_rate`, `calories_burned`) VALUES (4, 'Climbing', NULL, NULL, NULL);
-INSERT INTO `exercise` (`id`, `name`, `duration`, `average_heart_rate`, `calories_burned`) VALUES (5, 'Running', NULL, NULL, NULL);
-INSERT INTO `exercise` (`id`, `name`, `duration`, `average_heart_rate`, `calories_burned`) VALUES (6, 'Team Sports', NULL, NULL, NULL);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (1, 'Weightlifting', NULL, NULL, NULL);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (2, 'Pilates', NULL, NULL, NULL);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (3, 'Yoga', NULL, NULL, NULL);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (4, 'Running', NULL, NULL, NULL);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (5, 'Climbing', NULL, NULL, NULL);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (6, 'Basketball', NULL, NULL, 1);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (7, 'Volleyball', NULL, NULL, 1);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (8, 'Hockey', NULL, NULL, 1);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (9, 'Baseball', NULL, NULL, 1);
+INSERT INTO `exercise_type` (`id`, `name`, `description`, `image_url`, `team_sport`) VALUES (10, 'Kickball', NULL, NULL, 1);
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `team_sports`
+-- Data for table `exercise`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `exercisedb`;
-INSERT INTO `team_sports` (`id`, `name`, `exercise_id`) VALUES (1, 'Basketball', NULL);
-INSERT INTO `team_sports` (`id`, `name`, `exercise_id`) VALUES (2, 'Volleyball', NULL);
-INSERT INTO `team_sports` (`id`, `name`, `exercise_id`) VALUES (3, 'Baseball', NULL);
-INSERT INTO `team_sports` (`id`, `name`, `exercise_id`) VALUES (4, 'Soccer', NULL);
-INSERT INTO `team_sports` (`id`, `name`, `exercise_id`) VALUES (5, 'Kickball', NULL);
-INSERT INTO `team_sports` (`id`, `name`, `exercise_id`) VALUES (6, 'Hockey', NULL);
-INSERT INTO `team_sports` (`id`, `name`, `exercise_id`) VALUES (DEFAULT, NULL, NULL);
+INSERT INTO `exercise` (`id`, `notes`, `duration_in_hours`, `average_heart_rate`, `calories_burned`, `exercise_date`, `exercise_type_id`) VALUES (1, '', .75, 98, 231, '2025-05-30', 3);
+INSERT INTO `exercise` (`id`, `notes`, `duration_in_hours`, `average_heart_rate`, `calories_burned`, `exercise_date`, `exercise_type_id`) VALUES (2, '', NULL, NULL, NULL, NULL, 4);
+INSERT INTO `exercise` (`id`, `notes`, `duration_in_hours`, `average_heart_rate`, `calories_burned`, `exercise_date`, `exercise_type_id`) VALUES (3, '', NULL, NULL, NULL, NULL, 5);
+INSERT INTO `exercise` (`id`, `notes`, `duration_in_hours`, `average_heart_rate`, `calories_burned`, `exercise_date`, `exercise_type_id`) VALUES (4, '', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `exercise` (`id`, `notes`, `duration_in_hours`, `average_heart_rate`, `calories_burned`, `exercise_date`, `exercise_type_id`) VALUES (5, '', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `exercise` (`id`, `notes`, `duration_in_hours`, `average_heart_rate`, `calories_burned`, `exercise_date`, `exercise_type_id`) VALUES (6, '', NULL, NULL, NULL, NULL, 2);
 
 COMMIT;
 
