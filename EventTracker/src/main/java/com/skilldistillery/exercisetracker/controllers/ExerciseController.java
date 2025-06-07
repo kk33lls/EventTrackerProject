@@ -40,11 +40,12 @@ public class ExerciseController {
 		return es.showAll();
 	}
 
-	@PostMapping("exercises")
-	public Exercise create(@RequestBody Exercise newExercise, HttpServletResponse res, HttpServletRequest req) {
+	@PostMapping("exercises/exerciseTypes/{exerciseTypeId}")
+	public Exercise createExerciseWithEexerciseType(@RequestBody Exercise newExercise, @PathVariable("exerciseTypeId") int exerciseTypeId, 
+			HttpServletResponse res, HttpServletRequest req) {
 		Exercise exercise;
 		try {
-		exercise = es.create(newExercise);
+		exercise = es.create(newExercise, exerciseTypeId);
 		if(exercise == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}else {
@@ -58,6 +59,24 @@ public class ExerciseController {
 	}
 		return exercise;
 	}
+//	@PostMapping("exercises")
+//	public Exercise create(@RequestBody Exercise newExercise, HttpServletResponse res, HttpServletRequest req) {
+//		Exercise exercise;
+//		try {
+//			exercise = es.create(newExercise);
+//			if(exercise == null) {
+//				res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//			}else {
+//				res.setStatus(HttpServletResponse.SC_CREATED);
+//				res.setHeader("Location", req.getRequestURL().append("/").append(newExercise.getId()).toString());
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//			exercise = null;
+//		}
+//		return exercise;
+//	}
 	
 	@DeleteMapping("exercises/{exerciseId}")
 	public void deleteCommentFromPost(@PathVariable("exerciseId") int exerciseId,

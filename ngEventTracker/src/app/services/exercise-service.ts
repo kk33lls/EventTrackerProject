@@ -22,12 +22,32 @@ index(): Observable<Exercise[]>{
       })
     );
 }
- createExercise(exercise: Exercise) {
-    return this.http.post<Exercise>(this.url, exercise).pipe(
+ createExercise(exercise: Exercise, exerciseTypeId: number) {
+    return this.http.post<Exercise>(this.url + "/exerciseTypes/" + exerciseTypeId, exercise).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
           () => new Error('Exercise.createExercise(): error creating exercise: ' + err)
+        );
+      })
+    );
+  }
+  destroyExercise(exerciseId: number) {
+    return this.http.delete<Exercise>(this.url + '/' + exerciseId).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Exercise.delete(): error deleting exercise: ' + err)
+        );
+      })
+    );
+  }
+  update(updatedExercise: Exercise, exerciseId: number) {
+    return this.http.put<Exercise>(this.url + '/' + exerciseId, updatedExercise).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('Exercise.update(): error updating exercise: ' + err)
         );
       })
     );

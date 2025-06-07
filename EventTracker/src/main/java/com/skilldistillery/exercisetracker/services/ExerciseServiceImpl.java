@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.exercisetracker.entities.Exercise;
+import com.skilldistillery.exercisetracker.entities.ExerciseType;
 import com.skilldistillery.exercisetracker.repositories.ExerciseRepository;
+import com.skilldistillery.exercisetracker.repositories.ExerciseTypeRepository;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
 
 	@Autowired
 	private ExerciseRepository er;
+	@Autowired
+	private ExerciseTypeRepository etr;
 
 	@Override
 	public Exercise findById(int id) {
@@ -26,13 +30,11 @@ public class ExerciseServiceImpl implements ExerciseService {
 	}
 
 	@Override
-	public Exercise create(Exercise newExercise) {
-		if (newExercise != null) {
-			newExercise.setNotes(newExercise.getNotes());
-			newExercise.setAverageHeartRate(newExercise.getAverageHeartRate());
-			newExercise.setCaloriesBurned(newExercise.getCaloriesBurned());
-			newExercise.setDuration(newExercise.getDuration());
-			newExercise.setExerciseDate(newExercise.getExerciseDate());
+	public Exercise create(Exercise newExercise, int exerciseTypeId) {
+		ExerciseType exerciseType = etr.findById(exerciseTypeId).orElse(null);
+		if (newExercise != null && exerciseType != null) {
+			newExercise.setExerciseType(exerciseType);
+	
 			return er.saveAndFlush(newExercise);
 		}
 		return null;

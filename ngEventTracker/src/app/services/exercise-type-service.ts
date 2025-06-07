@@ -34,4 +34,15 @@ export class ExerciseTypeService {
       })
     );
   }
+
+   destroyExerciseType(exerciseTypeId: number) {
+    return this.http.delete<ExerciseType>(this.url + '/' + exerciseTypeId).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('ExerciseType.delete(): error deleting exerciseType: ' + err)
+        );
+      })
+    );
+  }
 }

@@ -1,4 +1,4 @@
-@if(! selected){
+@if(! showForm){
 <table class="table table-striped table-hover">
   <thead class="table-dark">
     <tr>
@@ -14,16 +14,16 @@
   <tbody>
     @for (exercise of exercises; track exercise.id) {
     <tr>
-      <td>{{exercise.exerciseDate}}</td>
+      <td (click)="showDetails">{{exercise.exerciseDate | date:'shortDate'}}</td>
       <td>{{exercise.exerciseType.name}}</td>
       <td>{{exercise.duration}}</td>
       <td>{{exercise.averageHeartRate}}</td>
       <td>{{exercise.caloriesBurned}}</td>
       <td>
-        <!-- <button class="btn btn-warning" (click)="updateExercise(exercise)">Update</button> -->
+        <button class="btn btn-warning" (click)="editExercise">Update</button>
       </td>
       <td>
-        <!-- <button class="btn btn-danger" (click)="deleteExercise(exercise.id)">Delete</button> -->
+        <button class="btn btn-danger" (click)="deleteExercise(exercise.id)">Delete</button>
       </td>
     </tr>
     }
@@ -35,13 +35,95 @@
 }
 @if(showForm){
   <div>
-    <h2>Log New Exercise</h2>
+    <h2>Log New Exercise Form</h2>
+    {{newExercise | json}}
     <form >
-      Select an exercise:<select>
+      Select an exercise:<select name="exerciseTypeId" [(ngModel)]="newExercise.exerciseType.id">
+        @for(exerciseType of exerciseTypes; track exerciseType.id){
+            <option [value]="exerciseType.id">{{exerciseType.name}}</option>
+        }
+      </select>
+      Notes: <input type="text" name="notes" [(ngModel)]="newExercise.notes">
+      Date: <input type="datetime-local" name="exerciseDate"[(ngModel)]="newExercise.exerciseDate">
+      Average Heart Rate: <input type="number" name="averageHeartRate"[(ngModel)]="newExercise.averageHeartRate">
+      Calories Burned: <input type="number" name="caloriesBurned" [(ngModel)]="newExercise.caloriesBurned">
+      Duration: <input type="number" name="duration" [(ngModel)]="newExercise.duration">
+
+      <button class="btn btn-danger" (click)="selected = null">Cancel</button>
+      <button class="btn btn-success" (click)="addExercise(newExercise)">Submit</button>
+
+    </form>
+  </div>
+}
+  @if(editExercise){
+     <div>
+    <h2>Update Exercise Form</h2>
+    <form >
+      <!-- Select an exercise:<select>
         @for(exerciseType of exerciseTypes; track exerciseType.id){
             <option>{{exerciseType.name}}</option>
         }
-      </select>
+      </select> -->
+      Notes: <input type="text" name="notes" [(ngModel)]="editExercise.notes">
+      Date: <input type="datetime-local" name="exerciseDate"[(ngModel)]="editExercise.exerciseDate">
+      Average Heart Rate: <input type="number" name="averageHeartRate"[(ngModel)]="editExercise.averageHeartRate">
+      Calories Burned: <input type="number" name="caloriesBurned" [(ngModel)]="editExercise.caloriesBurned">
+      Duration: <input type="number" name="duration" [(ngModel)]="editExercise.duration">
+
+      <button class="btn btn-danger" (click)="editExercise = null">Cancel</button>
+      <button class="btn btn-success" (click)="updateExercise(editExercise)">Submit</button>
+
     </form>
+  </div>
+  }
+  @if(showDetails){
+    <div class="exercise-view-container">
+  <div class="header">
+    <h2>Exercise Details</h2>
+    <button class="btn btn-secondary" (click)="goBack()">Back to List</button>
+  </div>
+  <!-- Exercise details -->
+  <div *ngIf="exercises" class="exercise-details">
+    <div class="detail-card">
+      <div class="detail-row">
+        <label class="detail-label">Exercise Type:</label>
+        <span class="detail-value">{{exercises.exerciseType.name || 'N/A'}}</span>
+      </div>
+
+      <div class="detail-row">
+        <label class="detail-label">Date:</label>
+        <span class="detail-value">{{exercises.exerciseDate | date:'medium'}}</span>
+      </div>
+
+      <div class="detail-row">
+        <label class="detail-label">Duration:</label>
+        <span class="detail-value">{{exercises.duration}} minutes</span>
+      </div>
+
+      <div class="detail-row">
+        <label class="detail-label">Average Heart Rate:</label>
+        <span class="detail-value">
+          <span class="metric-value">{{exercises.averageHeartRate}}</span>
+          <span class="metric-unit">bpm</span>
+        </span>
+      </div>
+
+      <div class="detail-row">
+        <label class="detail-label">Calories Burned:</label>
+        <span class="detail-value">
+          <span class="metric-value">{{exercises.caloriesBurned}}</span>
+          <span class="metric-unit">cal</span>
+        </span>
+        <div class="detail-row" *ngIf="exercise.notes">
+        <label class="detail-label">Notes:</label>
+        <span class="detail-value notes">{{exercise.notes}}</span>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-primary" (click)="updateExercise()">Edit Exercise</button>
+      <button class="btn btn-danger" (click)="deleteExercise()">Delete Exercise</button>
+    </div>
   </div>
 }

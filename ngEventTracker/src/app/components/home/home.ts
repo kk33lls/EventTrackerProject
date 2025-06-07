@@ -18,9 +18,11 @@ export class Home implements OnInit {
   exerciseTypes: ExerciseType[] = [];
   selected: Exercise | null = null;
   newExercise: Exercise = new Exercise();
+  editExercise: Exercise | null = null;
   showForm: boolean = false;
+  showDetails: boolean = false;
 
-  constructor(private es: ExerciseService, private ets: ExerciseTypeService) {}
+  constructor(private es: ExerciseService, private ets: ExerciseTypeService, private location: Location) {}
 
   ngOnInit(): void {
     this.loadExercises();
@@ -53,14 +55,49 @@ export class Home implements OnInit {
     })
   }
    addExercise(exercise: Exercise) {
-    this.es.createExercise(exercise).subscribe({
+    this.es.createExercise(exercise, exercise.exerciseType.id).subscribe({
       next: (createdExercise) => {
         this.loadExercises();
+        this.newExercise = new Exercise();
+        this.showForm = false;
       },
       error: (err) => {
         console.log(err)
         console.error('Error creating exercise');
       },
     });
+  }
+
+  deleteExercise(exerciseId: number) {
+    const confirmed = confirm('Are you sure you want to delete this exercise? This action cannot be undone.');
+    if (confirmed){
+    this.es.destroyExercise(exerciseId).subscribe({
+      next: (success) => {
+        this.loadExercises();
+        this.loadExerciseTypes();
+      },
+      error: (err) => {
+        console.log(err)
+        console.error('Error deleting exercise');
+      },
+    });
+  }
+  }
+
+  updateExercise(updatedExercise: Exercise) {
+    this.es.update(updatedExercise, updatedExercise.id).subscribe({
+      next: (success) => {
+        this.loadExercises();
+        this.editExercise = null;
+      },
+      error: (err) => {
+        console.log(err)
+        console.error('Error updating exercise');
+      },
+    });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
