@@ -1,0 +1,47 @@
+@if(! selected){
+<table class="table table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Date</th>
+      <th>Activity</th>
+      <th>Duration</th>
+      <th>Average Heart Rate</th>
+      <th>Calories Burned</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (exercise of exercises; track exercise.id) {
+    <tr>
+      <td>{{exercise.exerciseDate}}</td>
+      <td>{{exercise.exerciseType.name}}</td>
+      <td>{{exercise.duration}}</td>
+      <td>{{exercise.averageHeartRate}}</td>
+      <td>{{exercise.caloriesBurned}}</td>
+      <td>
+        <!-- <button class="btn btn-warning" (click)="updateExercise(exercise)">Update</button> -->
+      </td>
+      <td>
+        <!-- <button class="btn btn-danger" (click)="deleteExercise(exercise.id)">Delete</button> -->
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
+<button class="btn btn-primary" (click)="displayExerciseForm()">
+  Log New Exercise
+</button>
+}
+@if(showForm){
+  <div>
+    <h2>Log New Exercise</h2>
+    <form >
+      Select an exercise:<select>
+        @for(exerciseType of exerciseTypes; track exerciseType.id){
+            <option>{{exerciseType.name}}</option>
+        }
+      </select>
+    </form>
+  </div>
+}
