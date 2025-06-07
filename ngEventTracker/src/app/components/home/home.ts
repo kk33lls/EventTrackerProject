@@ -19,17 +19,54 @@ export class Home implements OnInit {
   selected: Exercise | null = null;
   newExercise: Exercise = new Exercise();
   editExercise: Exercise | null = null;
+  selectedExercise: Exercise | null = null;
   showForm: boolean = false;
   showDetails: boolean = false;
 
-  constructor(private es: ExerciseService, private ets: ExerciseTypeService, private location: Location) {}
+  constructor(private es: ExerciseService, private ets: ExerciseTypeService) {}
 
   ngOnInit(): void {
     this.loadExercises();
     this.loadExerciseTypes();
   }
+
   displayExerciseForm(): void {
-    this.showForm = ! this.showForm;
+    this.showForm = !this.showForm;
+
+    this.selectedExercise = null;
+    this.editExercise = null;
+  }
+
+
+  viewExercise(exercise: Exercise): void {
+    this.selectedExercise = exercise;
+    this.showForm = false;
+    this.editExercise = null;
+  }
+
+
+  editExerciseForm(exercise: Exercise): void {
+    this.editExercise = { ...exercise };
+    this.selectedExercise = null;
+    this.showForm = false;
+  }
+
+
+  cancelEdit(): void {
+    this.editExercise = null;
+  }
+
+
+  cancelForm(): void {
+    this.showForm = false;
+    this.selectedExercise = null;
+  }
+
+
+  backToList(): void {
+    this.selectedExercise = null;
+    this.editExercise = null;
+    this.showForm = false;
   }
 
   loadExercises(): void{
@@ -43,6 +80,7 @@ export class Home implements OnInit {
       }
     })
   }
+
   loadExerciseTypes(): void{
      this.ets.index().subscribe({
       next: (exerciseTypesList) => {
@@ -54,7 +92,8 @@ export class Home implements OnInit {
       }
     })
   }
-   addExercise(exercise: Exercise) {
+
+  addExercise(exercise: Exercise) {
     this.es.createExercise(exercise, exercise.exerciseType.id).subscribe({
       next: (createdExercise) => {
         this.loadExercises();
@@ -69,19 +108,19 @@ export class Home implements OnInit {
   }
 
   deleteExercise(exerciseId: number) {
-    const confirmed = confirm('Are you sure you want to delete this exercise? This action cannot be undone.');
-    if (confirmed){
     this.es.destroyExercise(exerciseId).subscribe({
       next: (success) => {
         this.loadExercises();
         this.loadExerciseTypes();
+
+        this.selectedExercise = null;
+        this.editExercise = null;
       },
       error: (err) => {
         console.log(err)
         console.error('Error deleting exercise');
       },
     });
-  }
   }
 
   updateExercise(updatedExercise: Exercise) {
@@ -95,9 +134,5 @@ export class Home implements OnInit {
         console.error('Error updating exercise');
       },
     });
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }
