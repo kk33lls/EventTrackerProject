@@ -14,3 +14,4 @@ As someone who is highly active and passionate about tracking personal fitness m
 
 ### Entity Relationship Diagram
 
+<img width="428" height="190" alt="exerciseTracker" src="https://github.com/user-attachments/assets/4957a870-a727-42d1-a72c-28750c8396a6" />
