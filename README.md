@@ -13,5 +13,6 @@ As someone who is highly active and passionate about tracking personal fitness m
 * Bootstrap
 
 ### Entity Relationship Diagram
+<img width="302" height="380" alt="exerciseTracker" src="https://github.com/user-attachments/assets/d4c47d8d-06e1-4192-a654-3f16cae6a369" />
 
-<img width="428" height="190" alt="exerciseTracker" src="https://github.com/user-attachments/assets/4957a870-a727-42d1-a72c-28750c8396a6" />
+
