@@ -5,6 +5,12 @@ This full-stack web application functions as an exercise log, enabling users to 
 As someone who is highly active and passionate about tracking personal fitness metrics, I developed this event tracker to combine my interest in fitness with my skills in full-stack development, creating a tool that makes tracking and visualizing progress both simple and efficient.
 
 ### Built With
-* [![JavaScript]
-* [![Angular][Angular.io]][Angular-url]
-* ![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* Java
+* Spring Boot
+* SQL
+* JavaScript
+* Angular
+* Bootstrap
+
+### Entity Relationship Diagram
+
