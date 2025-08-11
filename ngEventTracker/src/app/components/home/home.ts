@@ -73,6 +73,7 @@ export class Home implements OnInit {
     this.es.index().subscribe({
       next: (exerciseList) => {
         this.exercises = exerciseList;
+        this.sortExercisesByDate();
       },
       error: (err) => {
         console.error('Home.loadExercises: error getting exercises');
@@ -80,6 +81,14 @@ export class Home implements OnInit {
       }
     })
   }
+  sortExercisesByDate(ascending: boolean = true): void {
+        this.exercises.sort((a, b) => {
+          const dateA =  new Date(a.exerciseDate).getTime();
+          const dateB = new Date(b.exerciseDate).getTime();
+           console.log(`Comparing ${dateA} with ${dateB}`);
+          return ascending ? dateA - dateB : dateB - dateA;
+        });
+      }
 
   loadExerciseTypes(): void{
      this.ets.index().subscribe({
