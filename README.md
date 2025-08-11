@@ -1,5 +1,6 @@
 # EventTrackerProject
 <img width="1048" height="631" alt="Screenshot 2025-08-11 at 8 31 59 AM" src="https://github.com/user-attachments/assets/79ee1ba1-0a22-4c46-bcdc-5e1be307b29b" />
+
 ## About The Project
 This full-stack web application functions as an exercise log, enabling users to record and manage workout details including calories burned, duration, average heart rate, date, and activity type. The application features a responsive front-end for intuitive data entry and a back-end API for secure data storage and retrieval. 
 
